@@ -39,10 +39,10 @@ public class Producer extends Thread {
 	public void run()  {
 		int beers = 0;
 		while (!Thread.interrupted()) {
-//			if (System.currentTimeMillis() - 1000 > t) {
-//				this.interrupt();
-//			}
-//			printMess(name + " wartet bis die Kunden ihn das Bier zapfen lassen.");
+			if (System.currentTimeMillis() - 1000 > t) {
+				this.interrupt();
+			}
+			printMess(name + " wartet bis die Kunden ihn das Bier zapfen lassen.");
 			synchronized (dataMonitor) {
 				beers = counter.size();
 				if (beers < 1) {

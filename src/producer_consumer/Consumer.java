@@ -18,28 +18,25 @@ public class Consumer extends Thread {
 		this.pint = null;
 		this.dataMonitor = dataMonitor;
 		this.t = System.currentTimeMillis();
-//		this.pMonitor = pMonitor;
-//		this.cMonitor = cMonitor;
 	}
 	
 	private void printMess(String message) {
 		System.out.println(message);
-//		System.out.flush();
+		System.out.flush();
 	}
 
 	@Override
 	public void run() {
 		
 		while (!Thread.interrupted()) {
-//			if (System.currentTimeMillis() - 1000 > t) {
-//				this.interrupt();
-//			}
+			if (System.currentTimeMillis() - 1000 > t) {
+				this.interrupt();
+			}
 			// Prüfen ob das Bier nicht leer ist
 			if (pint == null || pint.getSips() < 1) {
 				if (pint != null) {
 //					printMess(name + ": " + pint.getResponse());
 				}
-//				printMess(name + " wartet in der Schlange vor dem Tresen auf ein neues Bier.");
 				// Versuche Zugriff auf den Tresen zu bekommen
 				synchronized (dataMonitor) {
 					// Prüfen, ob der Tresen nicht leer ist
@@ -53,7 +50,9 @@ public class Consumer extends Thread {
 					else {
 						printMess(name + " ärgert sich, dass der Tresen leer ist.");
 						try {
+							// Barkeeper benachrichtigen
 							dataMonitor.notifyAll();
+							// Warten, bis eine Benachrichtigung zurückkomt
 							dataMonitor.wait();
 						} catch (Exception e) {this.interrupt();}
 					}
@@ -69,7 +68,8 @@ public class Consumer extends Thread {
 				Thread.sleep(10);
 			}
 			catch (InterruptedException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
+				this.interrupt();
 			}
 			
 		}

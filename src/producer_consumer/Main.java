@@ -2,7 +2,7 @@ package producer_consumer;
 
 import java.util.ArrayList;
 
-public class Main /*extends Thread */{
+public class Main extends Thread {
 private boolean started = false;
 private ArrayList<Long> dataMonitor = new ArrayList<Long>();
 //private Object pMonitor = "pMon";
@@ -32,9 +32,9 @@ private ArrayList<Thread> consumers = new ArrayList<Thread>();
 		int countDrinkers = Integer.parseInt(args[1]);
 		
 		Main m = new Main(countBarKeepers, countDrinkers);
-		m.prepare();
+//		m.prepare();
 //		m.setDaemon(true);
-//		m.start();
+		m.start();
 	}
 	
 	/**
@@ -72,32 +72,31 @@ private ArrayList<Thread> consumers = new ArrayList<Thread>();
 		}
 	}
 
-//	@Override
-//	public void run() {
-//		while (!isInterrupted()) {
-//			if (!started) {
-//				started = true;
-//				prepare();
-//			}
-//			else {
-//				Thread.yield();
-////				if (System.currentTimeMillis() - 1500 > t) {
-////					try {
-////						printMess(dataMonitor.get(0) + "Biere produziert.");
-////						printMess(dataMonitor.get(1) + "Biere getrunken.");
-////						this.interrupt();
-////					} catch (Throwable e) {
-////						e.printStackTrace();
-////					}
-////				}
-//			}
-//		}
-//	}
+	@Override
+	public void run() {
+		while (!isInterrupted()) {
+			if (!started) {
+				started = true;
+				prepare();
+			}
+			Thread.yield();
+			if (System.currentTimeMillis() - 1500 > t) {
+				synchronized (dataMonitor) {
+					printMess(dataMonitor.get(0) + "Biere produziert.");
+					printMess(dataMonitor.get(1) + "Biere getrunken.");
+				}
+				try {
+					this.interrupt();
+				} catch (Throwable e) {}
+				System.exit(1);
+			}
+		}
+	}
 	
 	
 	private static void printMess(String message) {
 		System.out.println(message);
-//		System.out.flush();
+		System.out.flush();
 	}
 
 }
