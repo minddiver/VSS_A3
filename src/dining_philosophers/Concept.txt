@@ -1,0 +1,21 @@
+Um Platz am Tisch zu kriegen:
+
+Tisch als Monitor. Da man davon ausgehen kann, dass die Philosophen sich seltener an den Tisch setzen, als versuchen
+eine Gabel zu nehmen, bzw. weil die Verweildauer am Tisch wesentlich größer ist, als die Zeit der Anforderung eines 
+Platzes, stellt es kein "echtes" bottle neck dar.
+
+Am Tisch wird der erste verfügbare Platz gesucht (dann hat man aber ein Problem mit dem gefressigen Philosophen),
+da nicht sichergestellt werden kann, wer von den Philosophen als 1. den Platz kriegt.
+
+Alternativ: Es kann eine Queue verwendet werden, die den nächsten frei werdenden Platz dem 1. Philosophen in der Queue vergibt.
+Queue kann zu voll werden, dann wird der Philosoph abgewiesen und kann es später nochmal versuchen, einen Platz zu
+kriegen. Wenn der Philosoph fertig mitm Essen ist, wird er vom Platz entfernt. Wenn er nochmal essen will, wird er 
+wieder in die Queue eingereiht.
+
+Wenn der Philosoph aus der Queue ein Platz kriegt, wird er gesittet (.notify() für den Philosophen!)
+Dem Platz ist genau ein Paar Gabeln zugeordnet (also Referenzen auf die Gabeln!)
+Wenn der Philosoph am Platz ist, muss er auf eine/zwei Gabel warten.
+Der Philosoph versucht die Gabeln (nacheinander) zu nehmen mit compareAndSet. 
+Wenn er schon bei der 1. scheitert, versucht er gar nicht erst die 2. zu nehmen, sondern wartet auf ein notify von der 1.
+Wenn er beim Nehmen der 2. scheitert, muss er die 1. wieder freigeben und auf die 2. warten. Wenn dann die 1. verfügbar ist,
+kann er endlich essen, sonst muss er auf die 1. warten.
