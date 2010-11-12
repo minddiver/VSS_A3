@@ -27,7 +27,7 @@ public class Main {
 		}
 		if (count > 0) {
 			for (int i=1;i<=count;i++) {
-				greeters.add(new Thread(new HelloWorlder("Greeter" + String.valueOf(i))));
+				greeters.add(new Thread(new HelloWorlder("HelloWorlder" + String.valueOf(i))));
 			}
 		}
 		

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 public class Main extends Thread {
 private boolean started = false;
 private ArrayList<Long> dataMonitor = new ArrayList<Long>();
-//private Object pMonitor = "pMon";
-//private Object cMonitor = "cMon";
 private int producersCount;
 private int consumersCount;
 private long t;
@@ -32,8 +30,6 @@ private ArrayList<Thread> consumers = new ArrayList<Thread>();
 		int countDrinkers = Integer.parseInt(args[1]);
 		
 		Main m = new Main(countBarKeepers, countDrinkers);
-//		m.prepare();
-//		m.setDaemon(true);
 		m.start();
 	}
 	

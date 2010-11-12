@@ -25,7 +25,7 @@ public class Producer extends Thread {
 	public void fillBeer() {
 		Random rndBeers = new Random();
 		int beers;
-		beers = rndBeers.nextInt(10) + 1;	// 1 bis 5 Bier
+		beers = rndBeers.nextInt(50) + 1;	// 1 bis 5 Bier
 //		beers = 1;
 //		printMess(name + " zapft jetzt " + beers + " Biere.");
 		for (int i=0;i<beers;i++) {
@@ -42,24 +42,21 @@ public class Producer extends Thread {
 			if (System.currentTimeMillis() - 1000 > t) {
 				this.interrupt();
 			}
+			
 			printMess(name + " wartet bis die Kunden ihn das Bier zapfen lassen.");
 			synchronized (dataMonitor) {
 				beers = counter.size();
-				if (beers < 1) {
+				if (beers < 20) {
 					fillBeer();
 					dataMonitor.notifyAll();
 				}
 				else {
 					try {
 						dataMonitor.wait();
-					} catch (Exception e) {this.interrupt();}
+					} catch (InterruptedException e) {this.interrupt();}
 //					Thread.yield();
 				}
-//				monitor.notifyAll();
 			}
-			
-//			try { Thread.sleep(10); }
-//			catch (Exception e) { }
 		}
 	}
 	

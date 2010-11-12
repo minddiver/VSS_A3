@@ -35,7 +35,7 @@ public class Consumer extends Thread {
 			// Prüfen ob das Bier nicht leer ist
 			if (pint == null || pint.getSips() < 1) {
 				if (pint != null) {
-//					printMess(name + ": " + pint.getResponse());
+					printMess(name + ": " + pint.getResponse());
 				}
 				// Versuche Zugriff auf den Tresen zu bekommen
 				synchronized (dataMonitor) {
@@ -54,23 +54,23 @@ public class Consumer extends Thread {
 							dataMonitor.notifyAll();
 							// Warten, bis eine Benachrichtigung zurückkomt
 							dataMonitor.wait();
-						} catch (Exception e) {this.interrupt();}
+						} catch (InterruptedException e) {this.interrupt();}
 					}
 				}
 			}
 			else {
 				// Bier trinken
 				pint.sip();
-//				Thread.yield();
+				printMess(name + ": Schlürf!.");
 			}
 			
-			try {
-				Thread.sleep(10);
-			}
-			catch (InterruptedException e) {
+//			try {
+//				Thread.sleep(10);
+//			}
+//			catch (InterruptedException e) {
 //				e.printStackTrace();
-				this.interrupt();
-			}
+//				this.interrupt();
+//			}
 			
 		}
 	}
